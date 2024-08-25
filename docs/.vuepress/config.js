@@ -1,39 +1,27 @@
 import { blogPlugin } from '@vuepress/plugin-blog'
-import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 
+import {backToTopPlugin} from "@vuepress/plugin-back-to-top";
+import theme from "./theme/index.js";
+
 export default defineUserConfig({
-  lang: 'en-US',
-
-  title: 'VuePress',
-  description: 'My first VuePress Site',
-
-  theme: defaultTheme({
-    logo: 'https://vuejs.press/images/hero.png',
-
-    navbar: [
-      '/',
-      {
-        text: 'Article',
-        link: '/article/',
-      },
-      {
-        text: 'Category',
-        link: '/category/',
-      },
-      {
-        text: 'Tag',
-        link: '/tag/',
-      },
-      {
-        text: 'Timeline',
-        link: '/timeline/',
-      },
-    ],
-  }),
-
+  lang: 'zh-CN',
+  // lang: 'en-US', // 默认站点语言为英文
+  locales: {
+    '/': {
+      selectLanguageName: '简体中文',
+    },
+    '/en/': {
+      selectLanguageName: 'English',
+    },
+  },
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+  title: '鹦鹉文档',
+  description: '业精于勤，荒于嬉。',
+  theme: theme,
   plugins: [
+    backToTopPlugin(),
     blogPlugin({
       // Only files under posts are articles
       filter: ({ filePathRelative }) =>
