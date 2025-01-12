@@ -1,15 +1,5 @@
 import navbar from "../navbar/index.js";
-import sidebar from "../sidebar/index.js";
-import {defineNoteConfig, plumeTheme} from "vuepress-theme-plume";
-
-const noteConf = defineNoteConfig({
-    dir: 'noteConf',
-    link: '/',
-    sidebar: [
-        { text: 'one item', link: 'one' },
-        { text: 'two item', link: 'two' },
-    ]
-})
+import {defineNoteConfig, defineNotesConfig, plumeTheme} from "vuepress-theme-plume";
 export default plumeTheme({
     profile: {
         name: 'YYJ',
@@ -31,9 +21,21 @@ export default plumeTheme({
     editLink: false,
     navbar,
     notes: {
+        dir: '/notes/',
         link: '/',
-        dir: 'docs',
-        notes: [noteConf],
+        notes: [{
+            dir: 'test',
+            link: '/test/',
+            sidebar: "auto"
+        }, {
+            dir: 'test111',
+            link: '/test111/',
+            sidebar: "auto"
+        }, {
+            dir: 'apply-scene',
+            link: '/apply-scene/tree-structure-design/',
+            sidebar: "auto"
+        }],
     },
     footer: {
         message: 'Power by yw & vuepress-theme-plume',

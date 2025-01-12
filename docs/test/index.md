@@ -1,5 +1,5 @@
 ---
-#sidebar: heading
+
 ---
 
 # 了解我
