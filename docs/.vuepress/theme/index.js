@@ -1,5 +1,7 @@
+import {plumeTheme} from "vuepress-theme-plume";
 import navbar from "../navbar/index.js";
-import {defineNoteConfig, defineNotesConfig, plumeTheme} from "vuepress-theme-plume";
+import {notes} from "../sidebar/index.js";
+
 export default plumeTheme({
     profile: {
         name: 'YYJ',
@@ -20,23 +22,7 @@ export default plumeTheme({
     repo: 'https://gitee.com/yangjiaoshou20', //默认识别为GitHub用户名和仓库名
     editLink: false,
     navbar,
-    notes: {
-        dir: '/notes/',
-        link: '/',
-        notes: [{
-            dir: 'test',
-            link: '/test/',
-            sidebar: "auto"
-        }, {
-            dir: 'test111',
-            link: '/test111/',
-            sidebar: "auto"
-        }, {
-            dir: 'apply-scene',
-            link: '/apply-scene/tree-structure-design/',
-            sidebar: "auto"
-        }],
-    },
+    notes,
     footer: {
         message: 'Power by yw & vuepress-theme-plume',
         copyright: 'Copyright © 2024-present yyj'

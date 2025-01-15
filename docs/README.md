@@ -13,7 +13,7 @@ config:
         -
           theme: brand
           text: 开始阅读 →
-          link: /home
+          link: /back/start/
         -
           theme: alt
           text: Gitee

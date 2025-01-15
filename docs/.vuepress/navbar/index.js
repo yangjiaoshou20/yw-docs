@@ -1,14 +1,18 @@
 export default [
     {
-        text: '首页',
-        link: '/',
+        text: '前端',
+        link: '/front/start/',
     },
     {
-        text: '导航',
-        link: '/home',
+        text: '后端',
+        link: '/back/start/',
     },
     {
-        text: '所有博客',
+        text: '运维',
+        link: '/devops/start/',
+    },
+    {
+        text: '博客',
         link: '/blog/',
     },
 ]
