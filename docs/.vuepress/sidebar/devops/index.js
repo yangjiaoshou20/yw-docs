@@ -9,6 +9,15 @@ export const devops = defineNoteConfig({
         icon: 'ph:code-bold',
         items: [
             '开始',
+            {
+                text: 'docker',
+                icon: 'ph:code-bold',
+                prefix: 'docker',
+                collapsed: false,
+                items: [
+                    '介绍',
+                ],
+            }
         ],
     }],
 })

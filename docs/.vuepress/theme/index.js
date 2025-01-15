@@ -3,6 +3,7 @@ import navbar from "../navbar/index.js";
 import {notes} from "../sidebar/index.js";
 
 export default plumeTheme({
+    logo: '/home.png',
     profile: {
         name: 'YYJ',
         description: '业精于勤,荒与嬉.',

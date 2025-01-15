@@ -7,6 +7,7 @@ import {devops} from "./devops"
 export const notes = defineNotesConfig({
     link: '/',
     dir: 'notes',
+    icon: '/home.png',
     notes: [
         frontEnd,
         backEnd,
