@@ -107,3 +107,26 @@ rm -rf /var/lib/docker
 rm -rf /var/lib/containerd
 ```
 
+### 10、配置阿里云镜像加速器
+
+登录阿里云-->控制台-->容器镜像服务-->镜像工具-->镜像加速器
+
+```json
+https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
+```
+
+选择centOS版本：
+
+通过修改daemon配置文件/etc/docker/daemon.json来使用加速器
+
+```shell
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://ocqzxg9u.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
