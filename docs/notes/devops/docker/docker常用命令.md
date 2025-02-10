@@ -91,6 +91,4 @@ docker rmi -f $(docker images -qa)
 
 #### 虚悬镜像：
 
-仓库名、标签都是\<none>的镜像，俗称虚悬镜像dangling image
-
-### 容器命令
+仓库名、标签都是\<none>的镜像，俗称虚悬镜像dangling image.
