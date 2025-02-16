@@ -1,3 +1,8 @@
+---
+title: docker镜像加载原理
+createTime: 2025/02/16 23:07:35
+permalink: /devops/images/Loading/principle/
+---
 ### 镜像本质
 
 什么是镜像：
