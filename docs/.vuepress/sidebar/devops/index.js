@@ -21,6 +21,7 @@ export const devops = defineNoteConfig({
                     'docker容器命令',
                     'docker核心命令',
                     'docker镜像加载原理',
+                    'docker镜像仓库',
                 ],
             }
         ],
