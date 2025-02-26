@@ -129,3 +129,36 @@ Docker挂载主机目录，可能会出现报错：`cannot open directory .: Per
 解决方案：在命令中加入参数 `--privileged=true`。
 
 说明：CentOS7安全模块比之前系统版本加强，不安全的会先禁止，目录挂载的情况被默认为不安全的行为，在SELinux里面挂载目录被禁止掉了。如果要开启，一般使用 `--privileged=true`，扩大容器的权限解决挂载没有权限的问题。也即使用该参数，容器内的root才拥有真正的root权限，否则容器内的root只是外部的一个普通用户权限。
+
+#### 案例
+
+在纯净的ubuntu环境中安装vim编辑器之后将容器打包为镜像。
+
+操作步骤：
+
+1、从公网仓库中下载ubuntu镜像：
+
+```shell
+docker pull ubuntu
+```
+
+2、默认情况下纯净的ununtu容器中是不带vim编辑器的。
+
+3、进入容器并安装vim编辑器:
+
+```shell
+# 进入容器
+docker run -it ubuntu
+# 安装vim
+apt-get update
+apt-get -y install vim
+```
+
+4、使用commit命令制作自己的镜像:
+
+```shell
+docker commit -m="add vim" -a="yyj" 5fxitwsxiff yyj/vim-ubuntu:1.0
+```
+
+5、测试基于新的镜像启动并进入容器运行vim命令。
+
