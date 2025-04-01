@@ -25,7 +25,8 @@ export const devops = defineNoteConfig({
                     'docker容器卷',
                     'docker安装常用软件',
                     'DockerFile使用',
-                    '使用Dockerfile发布微服务'
+                    '使用Dockerfile发布微服务',
+                    'Docker容器网络'
                 ],
             }
         ],
