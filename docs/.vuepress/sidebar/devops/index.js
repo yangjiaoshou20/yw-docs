@@ -29,6 +29,16 @@ export const devops = defineNoteConfig({
                     'Docker容器网络',
                     'docker-compose容器编排',
                 ],
+            },
+            {
+                text: 'k8s',
+                icon: 'ph:code-bold',
+                prefix: 'k8s',
+                collapsed: false,
+                items: [
+                    'k8s安装基本配置（二进制方式）',
+                    'k8s安装基础组件（二进制方式）',
+                ],
             }
         ],
     }],
