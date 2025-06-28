@@ -4,11 +4,9 @@ createTime: 2025/03/16 20:19:08
 permalink: /devops/common/soft/
 ---
 
-### docker安装常用软件
+## mysql安装(5.7版本)
 
-#### mysql安装
-
-##### demo版本：
+### demo版本：
 
 拉取镜像：
 
@@ -35,7 +33,7 @@ mysql -uroot -p
 
 容器删除，mysql中的数据信息，log日志信息等数据丢失。
 
-##### 企业级安装：
+### 企业级安装：
 
 启动容器指定容器卷的映射：
 
@@ -61,7 +59,7 @@ docker restart mysql
 
 至此单机版mysql就解决了字符编码问题，并将数据相关目录映射到了宿主机。
 
-##### 主从复制版：
+### 主从复制版：
 
 mysql主服务器安装：
 
@@ -250,9 +248,126 @@ use db01;
 select * from t1;
 ```
 
-#### redis安装
+## mysql安装(8.0版本)：
 
-##### demo版本：
+```shell
+# 拉取镜像
+docker pull mysql:8.0.25
+# 创建主节点容器
+docker run -p 16036:3306 --name mysql-master --privileged=true -v /app/mysql-master/log:/var/logs/mysql -v /app/mysql-master/data:/var/lib/mysql -v /app/mysql-master/conf:/etc/mysql -v /app/mysql-master/mysql-files:/var/lib/mysql-files -e MYSQL_ROOT_PASSWORD=yangyongjun -d mysql:8.0.25
+```
+
+修改配置文件：
+
+```shell
+vim /app/mysql-master/conf
+# 编辑如下内容
+[client]
+default-character-set=utf8
+[mysqld]
+collation_server = utf8_general_ci
+character_set_server = utf8
+## 设置server_id, 同一个局域网中需要唯一
+server_id=101
+## 指定不需要同步的数据库名称
+binlog-ignore-db=mysql
+## 开启二进制日志功能
+log-bin=mall-mysql-bin
+## 设置二进制日志使用内存大小（事务）
+binlog_cache_size=1M
+## 设置使用的二进制日志格式（mixed,statement,row）
+binlog_format=mixed
+## 二进制日志过期清理时间。默认值为0，表示不自动清理
+expire_logs_days=7
+## 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断
+## 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致
+slave_skip_errors=1062
+```
+
+重启容器：
+
+```shell
+docker restart mysql-master
+# 查看主从同步的主库状态
+# mall-mysql-bin.000003	156		mysql	
+show master status;
+```
+
+新建主库用户用户同步主库数据到从库：
+
+```shell
+# 创建数据同步用户
+create user 'slave'@'%' identified by 'www.yyj.com';
+# 授权
+grant replication slave, replication client on *.* to 'slave'@'%';
+# 刷新权限
+flush privileges;
+```
+
+启动从库容器：
+
+```shell
+docker run -p 16037:3306 --name mysql-slave --privileged=true -v /app/mysql-slave/log:/var/logs/mysql -v /app/mysql-slave/data:/var/lib/mysql -v /app/mysql-slave/conf:/etc/mysql -v /app/mysql-slave/mysql-files:/var/lib/mysql-files -e MYSQL_ROOT_PASSWORD=www.yyj.com -d mysql:8.0.25
+```
+
+修改从库配置文件：
+
+```shell
+# 新增配置文件
+vim /app/mysql-slave/conf/my.cnf
+# 编辑如下内容
+[client]
+default-character-set=utf8
+[mysqld]
+collation_server = utf8_general_ci
+character_set_server = utf8
+## 设置server_id, 同一个局域网内需要唯一
+server_id=102
+## 指定不需要同步的数据库名称
+binlog-ignore-db=mysql
+## 开启二进制日志功能，以备slave作为其它数据库实例的Master时使用
+log-bin=mall-mysql-slave1-bin
+## 设置二进制日志使用内存大小（事务）
+binlog_cache_size=1M
+## 设置使用的二进制日志格式（mixed,statement,row）
+binlog_format=mixed
+## 二进制日志过期清理时间。默认值为0，表示不自动清理
+expire_logs_days=7
+## 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断
+## 如：1062错误是指一些主键重复，1032是因为主从数据库数据不一致
+slave_skip_errors=1062
+## relay_log配置中继日志
+relay_log=mall-mysql-relay-bin
+## log_slave_updates表示slave将复制事件写进自己的二进制日志
+log_slave_updates=1
+## slave设置只读（具有super权限的用户除外）
+read_only=1
+```
+
+主从数据同步开启：
+
+```shell
+docker restart mysql-slave
+# 由于mysql默认使用的默认密码插件为Authentication plugin 'caching_sha2_password'需要先申请公钥
+# 允许 RSA 公钥检索
+CHANGE MASTER TO GET_MASTER_PUBLIC_KEY = 1;
+# 开启主从同步其中master_log_file和master_log_pos参数根据主数据库状态查看修改
+change master to master_host='192.168.211.132',master_user='slave',master_password='www.yyj.com',master_port=16036,master_log_file='mall-mysql-bin.000003',master_log_pos=156,master_connect_retry=30;
+# 开始同步
+start slave;
+```
+
+查看主从同步状态并验证：
+
+```shell
+show slave status;
+```
+
+
+
+## redis安装
+
+### demo版本：
 
 拉取redis镜像：
 
@@ -268,7 +383,7 @@ docker run -p 6379:6379 -d redis:6.0.8
 
 问题：没有挂载数据卷，配置文件修改和数据随容器删除也被删除。
 
-##### 企业版本：
+### 企业版本：
 
 新建redis配置文件：
 
@@ -301,7 +416,7 @@ docker run -d -p 6379:6379 --name redis --privileged=true \
            redis-server /etc/redis/redis.conf
 ```
 
-##### 集群版本：
+### 集群版本：
 
 启动集群中三注三从的节点：
 

@@ -10,10 +10,21 @@ permalink: /devops/docker/install/
 https://docs.docker.com/engine/install/centos/
 ```
 
-确认centos版本在7以上
+前置准备：
 
 ```shell
+# 确认centos版本在7以上
 cat /etc/redhat-release
+# 由于 CentOS 7 已停止维护，官方源可能不可用。建议切换到国内镜像（如阿里云、清华 TUNA）
+vim /etc/yum.repos.d/CentOS-Base.repo
+# 备份原文件
+cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+# 替换为阿里云镜像
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Base.repo
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirrors.aliyun.com|g' /etc/yum.repos.d/CentOS-Base.repo
+清除缓存并测试
+yum clean all
+yum makecache
 ```
 
 ### 2、卸载旧版本
@@ -72,9 +83,9 @@ yum -y install docker-ce docker-ce-cli containerd.io
 # 查询版本列表
 yum list docker-ce --showduplicates | sort -r
 
-# 指定版本安装17.09.0.ce版
+# 指定版本安装(以24.0.9-1.el7为例)
 # sudo yum install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io docker-compose-plugin
-sudo yum install docker-ce-17.09.0.ce docker-ce-cli-17.09.0.ce containerd.io docker-compose-plugin
+sudo yum install docker-ce-24.0.9-1.el7 docker-ce-cli-24.0.9-1.el7 containerd.io -y
 ```
 
 ### 7、启动docker
@@ -124,6 +135,27 @@ sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": ["https://ocqzxg9u.mirror.aliyuncs.com"]
+}
+EOF
+# 阿里云镜像加速服务业务调整故修改为其他加速服务
+{
+  "registry-mirrors": ["https://www.daocloud.io"]
+}
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+扩展：
+
+```shell
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "registry-mirrors": [
+    "https://docker.mirrors.ustc.edu.cn",
+    "http://hub-mirror.c.163.com",
+    "https://docker.m.daocloud.io"
+  ]
 }
 EOF
 sudo systemctl daemon-reload
