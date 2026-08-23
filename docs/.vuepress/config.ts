@@ -26,4 +26,5 @@ export default defineUserConfig({
   ],
 
   bundler: viteBundler(),
+  port: 8135,
 }) as UserConfig
