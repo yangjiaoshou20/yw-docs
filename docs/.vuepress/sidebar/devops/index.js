@@ -17,7 +17,8 @@ export const devops = defineNoteConfig({
                 items: [
                     '介绍',
                     'docker安装',
-                    'docker常用命令'
+                    'docker常用命令',
+                    '容器日志与崩溃排查',
                 ],
             }
         ],
