@@ -114,9 +114,9 @@ kubelet --version
 etcdctl version
 ```
 版本信息：
-![k8s-version.png](static/k8s-version.png)
+![k8s-version.png](./static/k8s-version.png)
 解压后/usr/local/bin/对应文件为：
-![k8s-files.png](static/k8s-files.png)
+![k8s-files.png](./static/k8s-files.png)
 
 
 将组件发送到其他节点：
@@ -535,7 +535,7 @@ tail -200f /var/log/messages
 # 查看集群状态
 export ETCDCTL_API=3 && etcdctl --endpoints="192.168.1.11:2379,192.168.1.12:2379,192.168.1.13:2379" --cacert=/etc/kubernetes/pki/etcd/etcd-ca.pem --cert=/etc/kubernetes/pki/etcd/etcd.pem --key=/etc/kubernetes/pki/etcd/etcd-key.pem  endpoint status --write-out=table
 ```
-![etcd-status.png](static/etcd-status.png)
+![etcd-status.png](./static/etcd-status.png)
 
 
 ## master节点高可用配置

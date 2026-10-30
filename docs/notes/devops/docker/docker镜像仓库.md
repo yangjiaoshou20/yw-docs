@@ -7,17 +7,17 @@ permalink: /devops/repository/
 ### 将本地镜像发布到阿里云仓库
 
 本地镜像发布阿里云镜像仓库流程示意：
-![aLi-repository.png](images/aLi-repository.png)
+![aLi-repository.png](./images/aLi-repository.png)
 
 创建阿里云镜像仓库：
 
 容器镜像服务-->个人实例-->命名空间-->新建命名空间-->新建仓库-->获取相关脚本;
-![yyj-ns.png](images/yyj-ns.png)
+![yyj-ns.png](./images/yyj-ns.png)
 
 创建镜像仓库：
 
 
-![yyj-repository.png](images/yyj-repository.png)
+![yyj-repository.png](./images/yyj-repository.png)
 
 官方提供的脚本操作指南：
 

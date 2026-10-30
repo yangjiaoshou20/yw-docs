@@ -36,12 +36,12 @@ bootfs(boot file system)主要包含bootloader和kernel, bootloader主要是引�
 
 在bootfs之上。包含的就是典型 Linux 系统中的 /dev, /proc, /bin, /etc 等标准目录和文件。rootfs就是各种不同的操作系统发行版，比如Ubuntu，Centos等等。 
 
-![img.png](images/union-fs.png)
+![img.png](./images/union-fs.png)
 
 对于一个精简的OS，rootfs可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用Host的kernel，自己只需要提供 rootfs 就行了。由此可见对于不同的linux发行版, bootfs基本是一致的, rootfs会有差别, 因此不同的发行版可以公用bootfs。
 
 不同rootfs：
-![img.png](images/diff-rootfs.png)
+![img.png](./images/diff-rootfs.png)
 
 ### 镜像分层
 
@@ -63,7 +63,7 @@ CMD ["/bin/bash"] # 容器启动时运行bash
 
  镜像创建过程：
 
-![image-.png](images/image-layering.png)
+![image-.png](./images/image-layering.png)
 
 ### 容器层
 
@@ -73,7 +73,7 @@ CMD ["/bin/bash"] # 容器启动时运行bash
 
 只有容器层是可写的，容器层下面的所有镜像层都是只读的。
 
-![container-layer.png](images/container-layer.png)
+![container-layer.png](./images/container-layer.png)
 
 ### 镜像分层的优点
 

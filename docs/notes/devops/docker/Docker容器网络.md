@@ -69,12 +69,12 @@ docker network inspect bridge | grep name
  通过上述，将宿主机上的所有容器都连接到这个内部网络上，两个容器在同一个网络下,会从这个网关下各自拿到分配的ip，此时两个容器的网络是互通的。
 
 可启动容器在宿主机和容器内部使用**ip addr**来查看网卡是否一一对应匹配。
-![docker-network-01.png](images/docker-network-01.png)
+![docker-network-01.png](./images/docker-network-01.png)
 
 ### host模式：
 
 容器将不会获得一个独立的Network Namespace， 而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡而是使用宿主机的IP和端口。
-![docker-network-02.png](images/docker-network-02.png)
+![docker-network-02.png](./images/docker-network-02.png)
 
 ```shell
 # 指定网络模式为host模式
@@ -85,7 +85,7 @@ docker run -d -p 8083:8080 --network host --name tomcat83 billygoo/tomcat8-jdk8
 # 正确用法：
 docker run -d --network host --name tomcat83 billygoo/tomcat8-jdk8
 ```
-![docker-network-03.png](images/docker-network-03.png)
+![docker-network-03.png](./images/docker-network-03.png)
 
 ### none模式：
 
@@ -94,7 +94,7 @@ docker run -d --network host --name tomcat83 billygoo/tomcat8-jdk8
 ### container模式：
 
 新建的容器和已经存在的一个容器共享一个网络ip配置而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的IP，而是和一个指定的容器共享IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。
-![docker-network-04.png](images/docker-network-04.png)
+![docker-network-04.png](./images/docker-network-04.png)
 
 示例：
 

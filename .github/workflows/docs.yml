@@ -21,17 +21,20 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           # 选择要使用的 pnpm 版本
-          version: 8
-          # 使用 pnpm 安装依赖
-          run_install: true
+          version: 9.15.9
+          # 使用统一的 Node 版本安装依赖
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          # 选择要使用的 node 版本
-          node-version: 22
+          # 从 .nvmrc 读取 Node 版本
+          node-version-file: .nvmrc
           # 缓存 pnpm 依赖
           cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       # 运行构建脚本
       - name: Build yw docs

@@ -66,6 +66,6 @@ No test, lint, or typecheck scripts are configured. No CI config in repo.
 - `.gitignore` excludes `docs/.vuepress/.cache/`, `.temp/`, `dist/`, `/node_modules/`, `/.idea/`, and `/docs/posts/`. Don't commit build artifacts.
 - No `docs/posts/` blog collection despite `@vuepress/plugin-blog` being installed — it's unused currently.
 - `homepage` in `package.json` points to `https://www.baidu.com/:` (placeholder) — not the real deploy URL.
-- Node version: VuePress 2 RC + Vite requires Node >= 18. Use matching version.
+- Node version: use the version in `.nvmrc` (Node 22.18+). The current Vite 8 dependency chain rejects older Node releases.
 - `base: '/'` — deploying under a sub-path requires changing `base` in `config.ts`.
 - No ESLint/Prettier config — match existing formatting manually (2-space indent, single quotes in JS, semicolon-free style in theme files).
