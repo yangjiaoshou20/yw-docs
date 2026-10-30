@@ -5,7 +5,7 @@ import {backToTopPlugin} from "@vuepress/plugin-back-to-top"
 import theme from "./theme/index.js";
 
 export default defineUserConfig({
-  base: '/',
+  base: '/yw-docs/',
   lang: 'zh-CN',
   source: path.resolve(__dirname, '../'),
   public: path.resolve(__dirname, 'public'),

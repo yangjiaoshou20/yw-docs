@@ -16,6 +16,6 @@ config:
           link: /back/start/
         -
           theme: alt
-          text: Gitee
-          link: https://gitee.com/yangjiaoshou20
+          text: GitHub
+          link: https://github.com/yangjiaoshou20/yw-docs
 ---

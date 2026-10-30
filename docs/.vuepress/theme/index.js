@@ -20,7 +20,7 @@ export default plumeTheme({
             selectLanguageText: 'Language',
         }
     },
-    repo: 'https://gitee.com/yangjiaoshou20', //默认识别为GitHub用户名和仓库名
+    repo: 'https://github.com/yangjiaoshou20/yw-docs', //默认识别为GitHub用户名和仓库名
     editLink: false,
     navbar,
     notes,
