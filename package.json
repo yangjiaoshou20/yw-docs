@@ -17,7 +17,6 @@
   "devDependencies": {
     "@rolldown/binding-win32-x64-msvc": "^1.2.16",
     "@vuepress/bundler-vite": "2.0.0-rc.31",
-    "@vuepress/plugin-back-to-top": "2.0.0-rc.137",
     "@vuepress/plugin-blog": "^2.0.0-rc.11",
     "@vuepress/plugin-shiki": "2.0.0-rc.137",
     "typescript": "5.9.3",

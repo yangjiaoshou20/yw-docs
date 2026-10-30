@@ -1,7 +1,6 @@
 import * as path from 'node:path'
 import {defineUserConfig, type UserConfig} from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
-import {backToTopPlugin} from "@vuepress/plugin-back-to-top"
 import theme from "./theme/index.js";
 
 export default defineUserConfig({
@@ -21,9 +20,6 @@ export default defineUserConfig({
   title: '鹦鹉文档',
   description: '业精于勤，荒于嬉。',
   theme: theme,
-  plugins: [
-    backToTopPlugin(),
-  ],
 
   bundler: viteBundler(),
   port: 8135,
