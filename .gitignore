@@ -1,4 +1,5 @@
 /node_modules/
+/.pnpm-store/
 /.idea/
 /docs/posts/
 /docs/.vuepress/.cache/

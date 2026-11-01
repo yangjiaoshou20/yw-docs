@@ -16,5 +16,12 @@ export const backEnd = defineNoteConfig({
             icon: 'carbon:container-software',
             items: ['jvm/容器化内存与OOM治理', 'jvm/优雅停机与GC开销'],
         },
+        {
+            text: '并发编程',
+            collapsed: false,
+            icon: 'carbon:flow',
+            prefix: 'concurrency',
+            items: ['Java线程中断标志位与优雅停止'],
+        },
     ],
 })
