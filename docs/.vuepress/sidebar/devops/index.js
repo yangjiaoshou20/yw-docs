@@ -28,6 +28,7 @@ export const devops = defineNoteConfig({
                     '使用Dockerfile发布微服务',
                     'Docker容器网络',
                     'docker-compose容器编排',
+                    'Portainer容器可视化工具',
                     '容器日志与崩溃排查',
                 ],
             },
