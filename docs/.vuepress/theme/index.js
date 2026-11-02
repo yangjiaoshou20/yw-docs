@@ -1,6 +1,6 @@
 import {plumeTheme} from "vuepress-theme-plume";
 import navbar from "../navbar/index.js";
-import {notes} from "../sidebar/index.js";
+import {collections} from "../sidebar/index.js";
 
 export default plumeTheme({
     logo: '/home.png',
@@ -23,7 +23,7 @@ export default plumeTheme({
     repo: 'https://github.com/yangjiaoshou20/yw-docs', //默认识别为GitHub用户名和仓库名
     editLink: false,
     navbar,
-    notes,
+    collections,
     footer: {
         message: 'Power by yw & vuepress-theme-plume',
         copyright: 'Copyright © 2024-present yyj'

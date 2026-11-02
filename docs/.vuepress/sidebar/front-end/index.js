@@ -1,8 +1,10 @@
-import {defineNoteConfig} from 'vuepress-theme-plume'
+import {defineCollection} from 'vuepress-theme-plume'
 
-export const frontEnd = defineNoteConfig({
-    dir: 'front-end',
-    link: '/front/',
+export const frontEnd = defineCollection({
+    type: 'doc',
+    dir: 'notes/front-end',
+    linkPrefix: '/front/',
+    title: '前端',
     sidebar: [
         {
             text: '开始',

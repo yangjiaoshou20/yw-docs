@@ -1,8 +1,10 @@
-import {defineNoteConfig} from 'vuepress-theme-plume'
+import {defineCollection} from 'vuepress-theme-plume'
 
-export const backEnd = defineNoteConfig({
-    dir: 'back-end',
-    link: '/back/',
+export const backEnd = defineCollection({
+    type: 'doc',
+    dir: 'notes/back-end',
+    linkPrefix: '/back/',
+    title: '后端',
     sidebar: [
         {
             text: '开始',

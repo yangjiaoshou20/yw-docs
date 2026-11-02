@@ -1,8 +1,10 @@
-import {defineNoteConfig} from 'vuepress-theme-plume'
+import {defineCollection} from 'vuepress-theme-plume'
 
-export const devops = defineNoteConfig({
-    dir: 'devops',
-    link: '/devops/',
+export const devops = defineCollection({
+    type: 'doc',
+    dir: 'notes/devops',
+    linkPrefix: '/devops/',
+    title: '运维',
     sidebar: [{
         text: '开始',
         collapsed: false,
