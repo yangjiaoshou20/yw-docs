@@ -1,4 +1,7 @@
-export default [
+import type {NavItemWithLink} from 'vuepress-theme-plume'
+import {defineNavbarConfig} from 'vuepress-theme-plume'
+
+const navbar: NavItemWithLink[] = [
     {
         text: '前端',
         link: '/front/start/',
@@ -16,3 +19,5 @@ export default [
         link: '/blog/',
     },
 ]
+
+export default defineNavbarConfig(navbar)

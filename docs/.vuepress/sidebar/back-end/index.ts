@@ -1,0 +1,35 @@
+import type {ThemeSidebarItem} from 'vuepress-theme-plume'
+import {defineCollection} from 'vuepress-theme-plume'
+
+const sidebar: ThemeSidebarItem[] = [
+    {
+        text: '开始',
+        collapsed: false,
+        icon: 'ph:code-bold',
+        items: ['开始'],
+    },
+    {
+        text: 'JVM 与容器化',
+        collapsed: false,
+        icon: 'carbon:container-software',
+        items: ['jvm/容器化内存与OOM治理', 'jvm/优雅停机与GC开销'],
+    },
+    {
+        text: '并发编程',
+        collapsed: false,
+        icon: 'carbon:flow',
+        prefix: 'concurrency',
+        items: [
+            'Java线程中断标志位与优雅停止',
+            'ThreadLocal内存泄漏与引用链',
+        ],
+    },
+]
+
+export const backEnd = defineCollection({
+    type: 'doc',
+    dir: 'notes/back-end',
+    linkPrefix: '/back/',
+    title: '后端',
+    sidebar,
+})

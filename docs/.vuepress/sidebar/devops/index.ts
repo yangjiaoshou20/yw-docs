@@ -1,11 +1,8 @@
+import type {ThemeSidebarItem} from 'vuepress-theme-plume'
 import {defineCollection} from 'vuepress-theme-plume'
 
-export const devops = defineCollection({
-    type: 'doc',
-    dir: 'notes/devops',
-    linkPrefix: '/devops/',
-    title: '运维',
-    sidebar: [{
+const sidebar: ThemeSidebarItem[] = [
+    {
         text: '开始',
         collapsed: false,
         icon: 'ph:code-bold',
@@ -43,7 +40,15 @@ export const devops = defineCollection({
                     'k8s安装基本配置（二进制方式）',
                     'k8s安装基础组件（二进制方式）',
                 ],
-            }
+            },
         ],
-    }],
+    },
+]
+
+export const devops = defineCollection({
+    type: 'doc',
+    dir: 'notes/devops',
+    linkPrefix: '/devops/',
+    title: '运维',
+    sidebar,
 })
