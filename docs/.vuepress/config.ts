@@ -5,8 +5,11 @@ import {defineUserConfig} from 'vuepress'
 
 import theme from './theme/index.js'
 
+// 站点部署在子路径下，head 中的资源链接不会自动拼接 base，必须手动带上
+const base = '/yw-docs/'
+
 export default defineUserConfig({
-    base: '/yw-docs/',
+    base,
     lang: 'zh-CN',
     source: path.resolve(__dirname, '../'),
     public: path.resolve(__dirname, 'public'),
@@ -15,9 +18,8 @@ export default defineUserConfig({
         '/en/': {title: 'YW docs', lang: 'en-US'},
     },
     head: [
-        ['link', {rel: 'icon', href: '/favicon.ico'}],
-        ['link', {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/home.png'}],
-        ['link', {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/home.png'}],
+        ['link', {rel: 'icon', type: 'image/x-icon', sizes: '16x16 32x32 48x48', href: `${base}favicon.ico`}],
+        ['link', {rel: 'apple-touch-icon', sizes: '180x180', href: `${base}home.png`}],
     ],
     title: '鹦鹉文档',
     description: '业精于勤，荒于嬉。',
