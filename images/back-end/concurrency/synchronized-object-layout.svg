@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" role="img" aria-labelledby="title desc">
+  <title id="title">Java 对象内存布局与 Mark Word</title>
+  <desc id="desc">对象在堆中分为对象头、实例数据、对齐填充三段，对象头由 8 字节 Mark Word 和 4 字节 Klass Pointer 组成。Mark Word 的同一块 8 字节随锁状态存不同内容：无锁存 hashCode 与分代年龄，偏向锁存持有线程 ID，轻量级锁与重量级锁分别存 Lock Record 指针和 ObjectMonitor 指针。</desc>
+
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef6ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="760" height="500" rx="18" fill="url(#background)"/>
+  <rect x="1" y="1" width="758" height="498" rx="17" fill="none" stroke="#dbe7f3" stroke-width="1.5"/>
+
+  <text x="32" y="45" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="23" font-weight="700" fill="#0f172a">Java 对象内存布局</text>
+  <text x="32" y="70" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="13" fill="#526274">对象头 12 字节 + 实例数据 + 对齐填充，其中 Mark Word 的 8 字节被四种锁状态复用</text>
+
+  <text x="40" y="104" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700" fill="#64748b">① 对象在堆中的分段布局（64 位 JVM，开启压缩指针）</text>
+
+  <g stroke-width="1.5">
+    <rect x="40" y="114" width="170" height="64" fill="#f5f3ff" stroke="#a78bfa"/>
+    <rect x="210" y="114" width="85" height="64" fill="#eff6ff" stroke="#60a5fa"/>
+    <rect x="295" y="114" width="340" height="64" fill="#ecfdf5" stroke="#34d399"/>
+    <rect x="635" y="114" width="85" height="64" fill="#f8fafc" stroke="#94a3b8"/>
+  </g>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif" text-anchor="middle">
+    <text x="125" y="140" font-size="12" font-weight="700" fill="#5b21b6">Mark Word</text>
+    <text x="125" y="158" font-size="10" fill="#7c3aed">8 字节</text>
+
+    <text x="252" y="140" font-size="12" font-weight="700" fill="#1d4ed8">Klass Ptr</text>
+    <text x="252" y="158" font-size="10" fill="#2563eb">4 字节</text>
+
+    <text x="465" y="140" font-size="12" font-weight="700" fill="#047857">实例数据</text>
+    <text x="465" y="158" font-size="10" fill="#059669">16 字节（随字段变化）</text>
+
+    <text x="677" y="140" font-size="12" font-weight="700" fill="#475569">对齐填充</text>
+    <text x="677" y="158" font-size="10" fill="#64748b">4 字节</text>
+  </g>
+
+  <path d="M 40 178 L 40 186 L 295 186 L 295 178" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+  <text x="167" y="202" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="11" fill="#7c3aed" text-anchor="middle">对象头 12 字节</text>
+
+  <text x="40" y="228" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" fill="#64748b">关闭压缩指针时 Klass Pointer 占 8 字节，对象头为 16 字节</text>
+
+  <text x="40" y="262" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700" fill="#64748b">② Mark Word 的同一块 8 字节，随锁状态改变内容</text>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif">
+    <text x="40" y="290" font-size="11" fill="#475569">无锁</text>
+    <text x="40" y="338" font-size="11" fill="#475569">偏向锁</text>
+    <text x="40" y="386" font-size="11" fill="#475569">轻量级锁</text>
+    <text x="40" y="434" font-size="11" fill="#475569">重量级锁</text>
+  </g>
+
+  <g stroke="#c4b5fd" stroke-width="1.2">
+    <rect x="150" y="268" width="180" height="32" fill="#ede9fe"/>
+    <rect x="330" y="268" width="250" height="32" fill="#ede9fe"/>
+    <rect x="580" y="268" width="104" height="32" fill="#ede9fe"/>
+
+    <rect x="150" y="316" width="330" height="32" fill="#ede9fe"/>
+    <rect x="480" y="316" width="204" height="32" fill="#ede9fe"/>
+
+    <rect x="150" y="364" width="534" height="32" fill="#ede9fe"/>
+    <rect x="150" y="412" width="534" height="32" fill="#ede9fe"/>
+  </g>
+
+  <g stroke="#6d28d9" stroke-width="1.2">
+    <rect x="684" y="268" width="36" height="32" fill="#6d28d9"/>
+    <rect x="684" y="316" width="36" height="32" fill="#6d28d9"/>
+    <rect x="684" y="364" width="36" height="32" fill="#6d28d9"/>
+    <rect x="684" y="412" width="36" height="32" fill="#6d28d9"/>
+  </g>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif" text-anchor="middle">
+    <text x="240" y="288" font-size="11" fill="#4c1d95">unused 25 位</text>
+    <text x="455" y="288" font-size="11" fill="#4c1d95">hashCode 31 位</text>
+    <text x="632" y="288" font-size="11" fill="#4c1d95">年龄 4 · 偏位 1</text>
+
+    <text x="315" y="336" font-size="11" fill="#4c1d95">持有线程 ID 54 位</text>
+    <text x="582" y="336" font-size="11" fill="#4c1d95">epoch 2 位 · 年龄 · 偏位</text>
+
+    <text x="417" y="384" font-size="11" fill="#4c1d95">指向栈中 Lock Record 的指针（62 位）</text>
+    <text x="417" y="432" font-size="11" fill="#4c1d95">指向 ObjectMonitor 的指针（62 位）</text>
+
+    <text x="702" y="288" font-size="11" font-weight="700" fill="#ffffff" font-family="Consolas, Monaco, monospace">01</text>
+    <text x="702" y="336" font-size="11" font-weight="700" fill="#ffffff" font-family="Consolas, Monaco, monospace">01</text>
+    <text x="702" y="384" font-size="11" font-weight="700" fill="#ffffff" font-family="Consolas, Monaco, monospace">00</text>
+    <text x="702" y="432" font-size="11" font-weight="700" fill="#ffffff" font-family="Consolas, Monaco, monospace">10</text>
+  </g>
+
+  <text x="40" y="474" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" fill="#64748b">注：hashCode 与线程 ID 共用同一段内存，所以调用过 hashCode() 的对象无法进入偏向锁</text>
+</svg>
