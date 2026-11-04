@@ -12,7 +12,11 @@ const sidebar: ThemeSidebarItem[] = [
         text: 'JVM 与容器化',
         collapsed: false,
         icon: 'carbon:container-software',
-        items: ['jvm/容器化内存与OOM治理', 'jvm/优雅停机与GC开销'],
+        items: [
+            'jvm/JVM参数全称与记忆法',
+            'jvm/容器化内存与OOM治理',
+            'jvm/优雅停机与GC开销',
+        ],
     },
     {
         text: '并发编程',
