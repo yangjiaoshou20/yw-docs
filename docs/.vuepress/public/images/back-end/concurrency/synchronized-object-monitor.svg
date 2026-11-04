@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400" role="img" aria-labelledby="title desc">
+  <title id="title">Java 对象与 ObjectMonitor 管程的关系</title>
+  <desc id="desc">重量级锁膨胀后，对象头 Mark Word 记录指向 ObjectMonitor 的指针。Monitor 的 _owner 指向当前持有锁的线程，_EntryList 存放阻塞的线程，_WaitSet 存放调用 wait 后释放锁的线程，_cxq 是竞争入队的单向链表。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef6ff"/>
+    </linearGradient>
+    <marker id="arrow-right" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="760" height="400" rx="18" fill="url(#background)"/>
+  <rect x="1" y="1" width="758" height="398" rx="17" fill="none" stroke="#dbe7f3" stroke-width="1.5"/>
+
+  <text x="32" y="45" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="23" font-weight="700" fill="#0f172a">对象与 ObjectMonitor 的关联</text>
+  <text x="32" y="70" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="13" fill="#526274">膨胀为重量级锁后，Mark Word 记录指向 Monitor 的指针，由它统一管理三条队列</text>
+
+  <g filter="url(#shadow)">
+    <rect x="30" y="110" width="180" height="140" rx="12" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+    <rect x="44" y="146" width="152" height="36" rx="8" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.2"/>
+    <rect x="44" y="190" width="152" height="36" rx="8" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.2"/>
+
+    <rect x="280" y="100" width="270" height="240" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="294" y="139" width="242" height="30" rx="6" fill="#ffffff" stroke="#fde68a" stroke-width="1.2"/>
+    <rect x="294" y="175" width="242" height="30" rx="6" fill="#ffffff" stroke="#fde68a" stroke-width="1.2"/>
+    <rect x="294" y="211" width="242" height="30" rx="6" fill="#ffffff" stroke="#fde68a" stroke-width="1.2"/>
+    <rect x="294" y="247" width="242" height="30" rx="6" fill="#ffffff" stroke="#fde68a" stroke-width="1.2"/>
+
+    <rect x="580" y="130" width="160" height="44" rx="10" fill="#ecfdf5" stroke="#34d399" stroke-width="1.5"/>
+    <rect x="580" y="190" width="160" height="44" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+    <rect x="580" y="250" width="160" height="44" rx="10" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1.5"/>
+  </g>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif">
+    <text x="44" y="128" font-size="13" font-weight="700" fill="#1d4ed8">Java 对象</text>
+    <text x="120" y="169" font-size="12" fill="#7c3aed" text-anchor="middle">Mark Word</text>
+    <text x="120" y="213" font-size="12" fill="#475569" text-anchor="middle">实例数据</text>
+
+    <text x="296" y="128" font-size="13" font-weight="700" fill="#b45309">ObjectMonitor（C++ 对象）</text>
+
+    <text x="302" y="159" font-size="11" fill="#7c2d12" font-family="Consolas, Monaco, monospace">_owner</text>
+    <text x="528" y="159" font-size="10" fill="#92400e" text-anchor="end">当前持有线程</text>
+
+    <text x="302" y="195" font-size="11" fill="#7c2d12" font-family="Consolas, Monaco, monospace">_cxq</text>
+    <text x="528" y="195" font-size="10" fill="#92400e" text-anchor="end">竞争队列（CAS 入队）</text>
+
+    <text x="302" y="231" font-size="11" fill="#7c2d12" font-family="Consolas, Monaco, monospace">_EntryList</text>
+    <text x="528" y="231" font-size="10" fill="#92400e" text-anchor="end">阻塞队列 BLOCKED</text>
+
+    <text x="302" y="267" font-size="11" fill="#7c2d12" font-family="Consolas, Monaco, monospace">_WaitSet</text>
+    <text x="528" y="267" font-size="10" fill="#92400e" text-anchor="end">等待队列 WAITING</text>
+
+    <text x="296" y="302" font-size="10" fill="#92400e">_recursions 记录重入次数，重入时 +1</text>
+    <text x="296" y="322" font-size="10" fill="#92400e">notify() 只把线程移回 _EntryList，不释放锁</text>
+
+    <text x="596" y="152" font-size="12" font-weight="700" fill="#065f46">线程 A</text>
+    <text x="596" y="168" font-size="10" fill="#047857">持有锁，可重入</text>
+
+    <text x="596" y="212" font-size="12" font-weight="700" fill="#991b1b">线程 B / C</text>
+    <text x="596" y="228" font-size="10" fill="#b91c1c">BLOCKED，不占 CPU</text>
+
+    <text x="596" y="272" font-size="12" font-weight="700" fill="#5b21b6">线程 D</text>
+    <text x="596" y="288" font-size="10" fill="#6d28d9">WAITING，已释放锁</text>
+  </g>
+
+  <g stroke="#475569" stroke-width="1.8" marker-end="url(#arrow-right)">
+    <line x1="214" y1="164" x2="272" y2="164"/>
+    <line x1="552" y1="154" x2="574" y2="154"/>
+    <line x1="552" y1="226" x2="574" y2="212"/>
+    <line x1="552" y1="262" x2="574" y2="272"/>
+  </g>
+
+  <text x="243" y="154" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">膨胀后</text>
+
+  <text x="32" y="372" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" fill="#64748b">对象与 Monitor 的关联是惰性的：无竞争时 Mark Word 里没有 Monitor 指针，膨胀后才建立</text>
+</svg>

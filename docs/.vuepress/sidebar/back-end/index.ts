@@ -20,6 +20,7 @@ const sidebar: ThemeSidebarItem[] = [
         icon: 'carbon:flow',
         prefix: 'concurrency',
         items: [
+            'synchronized底层原理与锁升级',
             'Java线程中断标志位与优雅停止',
             'ThreadLocal内存泄漏与引用链',
         ],
