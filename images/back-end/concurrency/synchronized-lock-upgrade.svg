@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" role="img" aria-labelledby="title desc">
+  <title id="title">synchronized 锁升级路径</title>
+  <desc id="desc">现代 JDK 的实际路径是无锁到轻量级锁再到重量级锁，Mark Word 分别存储 hashCode、Lock Record 指针与 ObjectMonitor 指针。偏向锁已在 JDK 15 废弃、JDK 18 移除，原因是撤销需要安全点且开销远大于收益。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef6ff"/>
+    </linearGradient>
+    <marker id="arrow-right" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="760" height="500" rx="18" fill="url(#background)"/>
+  <rect x="1" y="1" width="758" height="498" rx="17" fill="none" stroke="#dbe7f3" stroke-width="1.5"/>
+
+  <text x="32" y="45" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="23" font-weight="700" fill="#0f172a">synchronized 锁升级路径</text>
+  <text x="32" y="70" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="13" fill="#526274">JDK 15 起偏向锁默认禁用（JEP 374），JDK 18 移除，实际路径已是三态</text>
+
+  <g filter="url(#shadow)">
+    <rect x="20" y="104" width="200" height="205" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="280" y="104" width="200" height="205" rx="14" fill="#ecfdf5" stroke="#34d399" stroke-width="1.5"/>
+    <rect x="540" y="104" width="200" height="205" rx="14" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  </g>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif">
+    <text x="38" y="126" font-size="10" fill="#94a3b8" font-family="Consolas, Monaco, monospace">lock 01</text>
+    <text x="38" y="156" font-size="20" font-weight="700" fill="#0f172a">无锁</text>
+    <line x1="38" y1="170" x2="202" y2="170" stroke="#e2e8f0" stroke-width="1.2"/>
+    <text x="38" y="192" font-size="11" fill="#94a3b8">Mark Word</text>
+    <text x="38" y="210" font-size="13" fill="#334155">hashCode · 分代年龄</text>
+    <text x="38" y="234" font-size="11" fill="#94a3b8">典型场景</text>
+    <text x="38" y="252" font-size="13" fill="#334155">对象刚创建，无人持有</text>
+    <text x="38" y="276" font-size="11" fill="#94a3b8">开销</text>
+    <text x="38" y="294" font-size="13" fill="#334155">无任何原子操作</text>
+
+    <text x="298" y="126" font-size="10" fill="#94a3b8" font-family="Consolas, Monaco, monospace">lock 00</text>
+    <text x="298" y="156" font-size="20" font-weight="700" fill="#0f172a">轻量级锁</text>
+    <line x1="298" y1="170" x2="462" y2="170" stroke="#d1fae5" stroke-width="1.2"/>
+    <text x="298" y="192" font-size="11" fill="#94a3b8">Mark Word</text>
+    <text x="298" y="210" font-size="13" fill="#334155">指向 Lock Record</text>
+    <text x="298" y="234" font-size="11" fill="#94a3b8">触发</text>
+    <text x="298" y="252" font-size="13" fill="#334155">多线程交替，竞争轻</text>
+    <text x="298" y="276" font-size="11" fill="#94a3b8">机制</text>
+    <text x="298" y="294" font-size="13" fill="#334155">CAS + 自适应自旋</text>
+
+    <text x="558" y="126" font-size="10" fill="#94a3b8" font-family="Consolas, Monaco, monospace">lock 10</text>
+    <text x="558" y="156" font-size="20" font-weight="700" fill="#0f172a">重量级锁</text>
+    <line x1="558" y1="170" x2="722" y2="170" stroke="#fee2e2" stroke-width="1.2"/>
+    <text x="558" y="192" font-size="11" fill="#94a3b8">Mark Word</text>
+    <text x="558" y="210" font-size="13" fill="#334155">指向 ObjectMonitor</text>
+    <text x="558" y="234" font-size="11" fill="#94a3b8">触发</text>
+    <text x="558" y="252" font-size="13" fill="#334155">自旋失败或第三线程加入</text>
+    <text x="558" y="276" font-size="11" fill="#94a3b8">机制</text>
+    <text x="558" y="294" font-size="13" fill="#334155">进 EntryList 阻塞</text>
+  </g>
+
+  <g stroke="#475569" stroke-width="2" marker-end="url(#arrow-right)">
+    <line x1="224" y1="206" x2="274" y2="206"/>
+    <line x1="484" y1="206" x2="534" y2="206"/>
+  </g>
+
+  <text x="249" y="196" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">竞争</text>
+  <text x="509" y="196" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">膨胀</text>
+
+  <rect x="20" y="340" width="350" height="128" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="8 5"/>
+  <rect x="390" y="340" width="350" height="128" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif">
+    <text x="38" y="372" font-size="16" font-weight="700" fill="#64748b">偏向锁 · 已移除</text>
+    <text x="38" y="398" font-size="13" fill="#64748b">JDK 1.6 引入，JDK 15 起默认禁用</text>
+    <text x="38" y="422" font-size="13" fill="#64748b">JDK 18 彻底移除（JEP 374）</text>
+    <text x="38" y="446" font-size="13" fill="#64748b">撤销需安全点暂停线程，单次 1–10 μs</text>
+
+    <text x="408" y="372" font-size="16" font-weight="700" fill="#1d4ed8">为什么升级不可逆</text>
+    <text x="408" y="398" font-size="13" fill="#475569">降级要把 Mark Word 从膨胀状态还原</text>
+    <text x="408" y="422" font-size="13" fill="#475569">并发下无法判定「此刻已无竞争」</text>
+    <text x="408" y="446" font-size="13" fill="#475569">成本高于收益，宁可一直重下去</text>
+  </g>
+</svg>
